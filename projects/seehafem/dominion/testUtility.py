@@ -46,13 +46,16 @@ def getSupplyOrder():
     return supplyOrder
 
 def getSupply(numPlayers, box, nC, nV, numKingdomCards):
-    boxlist = [k for k in box]
-    random.shuffle(boxlist)
-    randomizedList = boxlist[:numKingdomCards]
-    supply = defaultdict(list, [(k, box[k]) for k in randomizedList])
-
+    supply = chooseCards(box, numKingdomCards)
     supply = addStandardCards(supply, numPlayers, nC, nV)
 
+    return supply
+
+def chooseCards(box, numCards):
+    boxlist = [k for k in box]
+    random.shuffle(boxlist)
+    randomizedList = boxlist[:numCards]
+    supply = defaultdict(list, [(k, box[k]) for k in randomizedList])
     return supply
 
 def addStandardCards(supply, numPlayers, nC, nV):
