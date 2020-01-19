@@ -1,5 +1,5 @@
 """
-Created on Fri Jan 17 20:28:42 2020
+Created on Thur Jan 16 19:27:42 2020
 
 @author: seehafem
 """
@@ -8,6 +8,7 @@ import Dominion
 import random
 from collections import defaultdict
 
+# Get box of available Dominion kingdom cards
 def getBox(nV):
     box = {}
     box["Woodcutter"]=[Dominion.Woodcutter()]*10
@@ -37,6 +38,7 @@ def getBox(nV):
     box["Throne Room"]=[Dominion.Throne_Room()]*10
     return box
 
+# Get supply order corresponding to the correct cost of each card in the supply
 def getSupplyOrder():
     supplyOrder = {0: ['Curse', 'Copper'], 2: ['Estate', 'Cellar', 'Chapel', 'Moat'],
          3: ['Silver', 'Chancellor', 'Village', 'Woodcutter', 'Workshop'],
@@ -45,12 +47,14 @@ def getSupplyOrder():
          6: ['Gold', 'Adventurer'], 8: ['Province']}
     return supplyOrder
 
+# Choose kingdom cards and get the entire supply for this game of Dominion
 def getSupply(numPlayers, box, nC, nV, numKingdomCards):
     supply = chooseCards(box, numKingdomCards)
     supply = addStandardCards(supply, numPlayers, nC, nV)
 
     return supply
 
+# Choose a certain number of cards from the box
 def chooseCards(box, numCards):
     boxlist = [k for k in box]
     random.shuffle(boxlist)
@@ -58,6 +62,7 @@ def chooseCards(box, numCards):
     supply = defaultdict(list, [(k, box[k]) for k in randomizedList])
     return supply
 
+# Add the standard cards for any game of Dominion to the supply
 def addStandardCards(supply, numPlayers, nC, nV):
     supply["Copper"] = [Dominion.Copper()] * (60 - numPlayers * 7)
     supply["Silver"] = [Dominion.Silver()] * 40
@@ -69,6 +74,7 @@ def addStandardCards(supply, numPlayers, nC, nV):
 
     return supply
 
+# Get the player objects with the names passed to the function
 def getPlayers(player_names):
     players = []
     for name in player_names:
@@ -80,6 +86,7 @@ def getPlayers(player_names):
             players.append(Dominion.Player(name))
     return players
 
+# Get the number of victory cards appropriate for the number of players
 def getVictoryCardCount(numPlayers):
     if numPlayers > 2:
         nV = 12
@@ -87,6 +94,7 @@ def getVictoryCardCount(numPlayers):
         nV = 8
     return nV
 
+# Get the number of curse cards appropriate for the number of players
 def getCurseCardCount(numPlayers):
     nC = -10 + 10 * numPlayers
     return nC
